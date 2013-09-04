@@ -24,7 +24,7 @@ public class Form1 : System.Windows.Forms.Form
 	public Form1()
 	{
 		// This call is required for Windows Form Designer support.
-		Size W_size = new Size(500,500);
+		Size W_size = new Size(680,900);
 		this.ClientSize = new System.Drawing.Size(W_size.Width,W_size.Height);
 		InitializeComponent(W_size);
 	}
@@ -46,9 +46,22 @@ public class Form1 : System.Windows.Forms.Form
 		this.tabPage2 = new System.Windows.Forms.TabPage();
 		this.tab1Button1 = new System.Windows.Forms.Button();
 
+		int allowance = 20;
+		Size T_size = new System.Drawing.Size(640,360);
+		Size T_size2 = new System.Drawing.Size(640,20);
+		tabControl1.Location = new System.Drawing.Point(allowance,W_size.Height/2 - 50);
+		tabControl1.Size = T_size;
+		tabControl1.SelectedIndex = 0;
+		tabControl1.TabIndex = 0;
 		tabPage1.Text = "eye";
-		tabPage1.Size = new System.Drawing.Size(256, 214);
+		tabPage1.Size = T_size2;
 		tabPage1.TabIndex = 0;
+		tabPage2.Text = "tabPage2";
+		tabPage2.Size = T_size2;
+		tabPage2.TabIndex = 1;
+		tabPage3.Text = "tabPage3";
+		tabPage3.Size = T_size2;
+		tabPage3.TabIndex = 2;
 		tab2CheckBox3.Location = new System.Drawing.Point(32, 136);
 		tab2CheckBox3.Text = "checkBox3";
 		tab2CheckBox3.Size = new System.Drawing.Size(176, 32);
@@ -59,10 +72,6 @@ public class Form1 : System.Windows.Forms.Form
 		tab3RadioButton2.Size = new System.Drawing.Size(152, 24);
 		tab3RadioButton2.TabIndex = 1;
 		tab3RadioButton2.Visible = true;
-		tabControl1.Location = new System.Drawing.Point(16,W_size.Height/2);
-		tabControl1.Size = new System.Drawing.Size(264, 240);
-		tabControl1.SelectedIndex = 0;
-		tabControl1.TabIndex = 0;
 		tab2CheckBox2.Location = new System.Drawing.Point(32, 80);
 		tab2CheckBox2.Text = "checkBox2";
 		tab2CheckBox2.Size = new System.Drawing.Size(176, 32);
@@ -80,12 +89,6 @@ public class Form1 : System.Windows.Forms.Form
 		tab1Label1.Text = "label1";
 		tab1Label1.Size = new System.Drawing.Size(224, 96);
 		tab1Label1.TabIndex = 1;
-		tabPage3.Text = "tabPage3";
-		tabPage3.Size = new System.Drawing.Size(256, 214);
-		tabPage3.TabIndex = 2;
-		tabPage2.Text = "tabPage2";
-		tabPage2.Size = new System.Drawing.Size(256, 214);
-		tabPage2.TabIndex = 1;
 		tab1Button1.Location = new System.Drawing.Point(88, 144);
 		tab1Button1.Size = new System.Drawing.Size(80, 40);
 		tab1Button1.TabIndex = 0;
