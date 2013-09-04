@@ -20,10 +20,11 @@ using OpenCvSharp;
             Cv.ReleaseImage(inputImage);
         }
 
-
+    //ここから先エフェクト列挙
         public IplImage test_effect(IplImage inputImg)
         {
             IplImage tmp_Img = Cv.CloneImage(inputImg);
+  
             int x, y;
             for (y = 0; y < tmp_Img.Height; y++)
             {

@@ -8,19 +8,35 @@ using System.Runtime.CompilerServices;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using System.Collections.Generic;
+using System.Xml;
+
+struct MyPoints
+{
+    public int x;
+    public int y;
+    public double s;
+}
+
 
 public class opencvsharp_test
 {
     public IplImage testImage;
-    public Dictionary<string, Point> featurePoints;
-    public Dictionary<string, List<Point>> parts;
+    private XmlDocument FaceXml;
 
     public opencvsharp_test()
     {
         loadimage();
+        Init();
+    }
+
+    private void Init()
+    {
+        this.FaceXml = new XmlDocument();
+
+        readXML();
 
     }
+
 
     public void loadimage()
     {
@@ -36,8 +52,18 @@ public class opencvsharp_test
 
     void readXML()
     {
+        FaceXml.Load("facedetect.xml");
+        XmlElement root = FaceXml.DocumentElement;
+        Console.WriteLine(root.Name);
+
+        XmlNodeList faces = root.GetElementsByTagName("face");
+        Console.WriteLine(faces.Item(0).Name);
+
         
         
+        //XmlNodeList bounds = facesElement.GetElementsByTagName("bounds");
+        //XmlElement boundsElement = (XmlElement)bounds.Item(0);
+        //Console.WriteLine("X={0},Y={1},width = {2},height = {3}", boundsElement.GetAttribute("x"), boundsElement.GetAttribute("y"), boundsElement.GetAttribute("width"), boundsElement.GetAttribute("height"));
     }
 
     void displayHTML()
