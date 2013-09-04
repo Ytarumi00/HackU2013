@@ -1,11 +1,12 @@
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Text;
 using System.IO;
 public class MyButton : Button{
-	public int tab_num;
-	public int val;
+	private int tab_num;
+	private int val;
 	public MyButton(int t,int v){
 		set_tab_num(t);
 		set_val(v);
@@ -21,6 +22,22 @@ public class MyButton : Button{
 	}
 	public int get_val(){
 		return this.val;
+	}
+}
+public class get_TabImage{
+	private string pass = "/home/yu-suke/Pictures/";
+	private ImageFormat fmt = ImageFormat.Png;
+	private string fullpass_filename;
+	public Bitmap[] img;
+	get_TabImage(string file_name,int file_num){
+		string passfile = pass+file_name;
+		this.img = Bitmap[file_num];
+		for(int i = 0;i < file_num;i++){
+			fullpass_filename = passfile + i.ToString("00") + fmt.ToString();
+			FileStream sr = new FileStream("fullpass_filename",FileMode.Open,FileAccess.Read);
+			img[i] = (Bitmap)Bitmap.FromStream(sr);
+			sr.Close();
+		}
 	}
 }
 public class Form1 : System.Windows.Forms.Form
@@ -90,7 +107,8 @@ public class Form1 : System.Windows.Forms.Form
 		for(int i = 0;i < 3;i++){
 			string s = i.ToString();
 			tab1Button[i] = new MyButton(0,i){
-				Text = "cheek"+s,
+				Image = Image.FromFile("/home/yu-suke/Pictures/cheek_00.png"),
+							Text = "test",
 						 Location = new System.Drawing.Point(10,50+i*50),
 						 Size = new System.Drawing.Size(80,40),
 						 TabIndex = i,
@@ -176,8 +194,8 @@ public class Form1 : System.Windows.Forms.Form
 
 	private void TabButton_Click (object sender, System.EventArgs e)
 	{
-		Console.Write((sender as MyButton).tab_num);
-		Console.Write((sender as MyButton).val\n);
+		Console.Write((sender as MyButton).get_tab_num());
+		Console.Write((sender as MyButton).get_val());
 
 	}
 	// private void tab2Button_Click (object sender, System.EventArgs e)
