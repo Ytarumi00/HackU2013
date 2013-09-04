@@ -8,30 +8,44 @@ using System.Runtime.CompilerServices;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using System.Collections.Generic;
 
 public class opencvsharp_test
 {
-    public  IplImage testImage;
+    public IplImage testImage;
+    public Dictionary<string, Point> featurePoints;
+    public Dictionary<string, List<Point>> parts;
 
     public opencvsharp_test()
     {
         loadimage();
+
     }
 
-    public void loadimage(){
+    public void loadimage()
+    {
         testImage = Cv.LoadImage("DSC_0154.png");
     }
 
     public void myshowImage()
     {
         Cv.NamedWindow("window");
-        Cv.ShowImage("window",testImage);
-        /*
-        Cv.WaitKey();
-        Cv.DestroyWindow("window");
-        Cv.ReleaseImage(testImage);
-         * */
+        Cv.ShowImage("window", testImage);
+
     }
+
+    void readXML()
+    {
+        
+        
+    }
+
+    void displayHTML()
+    {
+
+    }
+
+
     ~opencvsharp_test()
     {
         Cv.DestroyWindow("window");
@@ -59,11 +73,12 @@ class Form1 : Form
     private System.Windows.Forms.TabPage tabPage2;
     private System.Windows.Forms.TabPage tabPage1;
     private System.Windows.Forms.TabControl tabControl1;
-   
+
     private System.Windows.Forms.PictureBox Face;
     private opencvsharp_test picture;
+    private Effect MyEffect;
 
- 
+
     public Form1()
     {
         // This call is required for Windows Form Designer support.
@@ -71,56 +86,6 @@ class Form1 : Form
         this.ClientSize = new System.Drawing.Size(W_size.Width, W_size.Height);
         InitializeComponent(W_size);
 
-
-        /*
-        this.ClientSize = new System.Drawing.Size(900, 480);
-        button[0] = new Button()
-        {
-            Text = "ボタン A",
-            TabIndex = 0,  // フォーカスの移る順位 0 (最優先)
-            Location = new Point(10, 10),
-            UseVisualStyleBackColor = true,  // ビジュアルスタイル
-        };
-        button[0].Click += new EventHandler(button_Click);
-
-        button[1] = new Button()
-        {
-            Text = "ボタン B",
-            TabIndex = 1,
-            Location = new Point(10, 40),
-            UseVisualStyleBackColor = true,
-            Enabled = false,  // 使用不可
-        };
-        button[1].Click += new EventHandler(button_Click);
-
-        button[2] = new Button()
-        {
-            Text = "ボタン C",
-            TabIndex = 2,
-            Location = new Point(10, 70),
-            UseVisualStyleBackColor = true,
-            Cursor = Cursors.Hand,  // 手形カーソル
-        };
-        button[2].Click += new EventHandler(button_Click);
-        button[3] = new Button()
-        {
-            Text = "Image test",
-            TabIndex = 3,
-            Location = new Point(10,100),
-            UseVisualStyleBackColor = true,
-            Cursor = Cursors.Hand,
-        };
-        this.Controls.AddRange(button);
-        button[3].Click += new EventHandler(my_button_Click);
-
-        Face.Location = new Point(200, 0);
-        Face.Image = picture.testImage.ToBitmap();
-        Face.Size = new System.Drawing.Size(360, 480);
-        
-        //picture.myshowImage();
-
-        this.Controls.Add(Face);
-         * */
 
     }
     private void InitializeComponent(Size W_size)
@@ -138,18 +103,26 @@ class Form1 : Form
         this.tabPage2 = new System.Windows.Forms.TabPage();
         this.tab1Button1 = new System.Windows.Forms.Button();
 
+
+        //江夏側の設定部分
+        //Face:UIに出力する顔画像部分のPicture Box
+        //picture:OpenCVSharpで顔画像の読み込みクラス
+        //MyEffect:pictureでとってきた顔画像に対してエフェクトをする部分
         this.Face = new System.Windows.Forms.PictureBox();
         this.picture = new opencvsharp_test();
+        this.MyEffect = new Effect(picture.testImage);
 
         Face.Location = new Point(20, 20);
         Face.Image = picture.testImage.ToBitmap();
         Face.Size = new System.Drawing.Size(640, 480);
 
 
+
+
         int allowance = 20;
         Size T_size = new System.Drawing.Size(640, 360);
         Size T_size2 = new System.Drawing.Size(640, 20);
-        tabControl1.Location = new System.Drawing.Point(allowance, W_size.Height / 2 );
+        tabControl1.Location = new System.Drawing.Point(allowance, W_size.Height / 2);
         tabControl1.Size = T_size;
         tabControl1.SelectedIndex = 0;
         tabControl1.TabIndex = 0;
@@ -217,13 +190,22 @@ class Form1 : Form
         tabControl1.Controls.Add(this.tabPage2);
         tabControl1.Controls.Add(this.tabPage3);
 
-        
+
 
     }
 
     private void tab1Button1_Click(object sender, System.EventArgs e)
     {
         // Inserts the code that should run when the button is clicked.
+
+        IplImage tmpImg;
+        tmpImg = Cv.CloneImage(picture.testImage);
+        //テスト段階なのではずれボタンとタブの情報を入れています
+        tmpImg = face_change(9, 9, tmpImg);
+        
+        Face.Image = tmpImg.ToBitmap();
+        Face.Size = new System.Drawing.Size(640, 480);
+
     }
 
 
@@ -233,114 +215,105 @@ class Form1 : Form
         this.Text = (sender as Button).Text;
     }
 
-    void my_button_Click(object sender, EventArgs e)
-    {
-        IplImage effected_Img = Cv.CloneImage(picture.testImage);
-        effected_Img = test_effect(picture.testImage);
-
-        Face.Image = effected_Img.ToBitmap();
-        Face.Size = new System.Drawing.Size(360, 480);
-    }
-    /*
-    public void loadimage()
-    {
-        testImage = Cv.LoadImage("C://Users//ImageLab//Documents//Visual Studio 2012//Projects//sharp_sample//features.png");
-    }
-
-    public void myshowImage()
-    {
-        Cv.NamedWindow("window");
-        Cv.ShowImage("window", testImage);
-    }
-
-    */
-
-    void face_change(int tab_number, int button_number)
+    IplImage face_change(int tab_number, int button_number,IplImage inputImg)
     {
         //口と鼻とほほ
         //ほほ:tab_number=0;
         //鼻：tab_number = 1;
         //口：tab_number = 2;
-        System.Console.Write("入力されたtab:%d,button:%d", tab_number, button_number);
+        //tmpImg:編集用画像
+
+        IplImage tmpImg = Cv.CloneImage(inputImg);
+
+        System.Console.Write("入力されたtab:{0},button:{1}\n", tab_number, button_number);
         switch (tab_number)
         {
             case 0:
                 //ほほについて
-                System.Console.Write("test 0");
+                System.Console.Write("test 0\n");
                 switch (button_number)
                 {
                     case 0:
                         //ほほのエフェクト0
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     case 1:
                         //ほほのエフェクト1
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     case 2:
                         //ほほのエフェクト2
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0]\n", button_number);
                         break;
                     default:
                         //エラー処理（エフェクト番号間違い)
-                        System.Console.Write("Error!予期せぬbutton番号です");
+                        System.Console.Write("Error!予期せぬbutton番号です\n");
                         break;
                 }
                 break;
             case 1:
                 //鼻について
-                System.Console.Write("test 1");
+                System.Console.Write("test 1\n");
                 switch (button_number)
                 {
                     case 0:
                         //鼻のエフェクト0
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     case 1:
                         //鼻のエフェクト1
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     case 2:
                         //鼻のエフェクト2
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     default:
                         //エラー処理(エフェクト番号違い)
-                        System.Console.Write("Error!予期せぬbutton番号です");
+                        System.Console.Write("Error!予期せぬbutton番号です\n");
                         break;
                 }
                 break;
             case 2:
                 //口について
-                System.Console.Write("test 2");
+                System.Console.Write("test 2\n");
                 switch (button_number)
                 {
                     case 0:
                         //口のエフェクト0
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     case 1:
                         //口のエフェクト1
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     case 2:
                         //口のエフェクト2
-                        System.Console.Write("button number is %d", button_number);
+                        System.Console.Write("button number is {0}\n", button_number);
                         break;
                     default:
                         //エラー処理（エフェクト番号違い)
-                        System.Console.Write("Error!予期せぬbutton番号です");
+                        System.Console.Write("Error!予期せぬbutton番号です\n");
                         break;
                 }
                 break;
             default:
                 //エラー処理（タブ番号違い)
-                System.Console.Write("Error!予期せぬ番号です");
+                System.Console.Write("Error!予期せぬ番号です.現在はテスト用のエフェクトが走ります");
+                //tmpImg = test_effect(tmpImg);
+                tmpImg = MyEffect.test_effect(MyEffect.inputImage);
+                
                 break;
 
         }
+        return tmpImg;
 
     }
+
+
+    //テストエフェクト
+    //全体の色合いを適当に変化させます。
+    /*
     IplImage test_effect(IplImage inputImg)
     {
         IplImage tmp_Img = Cv.CloneImage(inputImg);
@@ -360,5 +333,6 @@ class Form1 : Form
         }
         return tmp_Img;
     }
+     * */
 
 }
