@@ -99,6 +99,7 @@ public class Form1 : System.Windows.Forms.Form
 		tabPage1.Text = "cheek";
 		tabPage1.Size = T_size2;
 		tabPage1.TabIndex = 0;
+		tabPage2.Text = "eye";
 		tabPage2.Size = T_size2;
 		tabPage2.TabIndex = 1;
 		tabPage3.Text = "mouse";
