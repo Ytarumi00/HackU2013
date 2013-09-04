@@ -3,6 +3,26 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
 using System.IO;
+public class MyButton : Button{
+	public int tab_num;
+	public int val;
+  public MyButton(int t,int v){
+		set_tab_num(t);
+		set_val(v);
+  }
+	void set_tab_num(int t){
+		this.tab_num = t;
+	}
+	void set_val(int v){
+		this.val = v;
+	}
+	public int get_tab_num(){
+		return this.tab_num;
+	}
+	public int get_val(){
+		return this.val;
+	}
+}
 public class Form1 : System.Windows.Forms.Form
 {
 	// Required designer variable.
@@ -15,7 +35,10 @@ public class Form1 : System.Windows.Forms.Form
 	private System.Windows.Forms.CheckBox tab2CheckBox2;
 	private System.Windows.Forms.CheckBox tab2CheckBox1;
 	private System.Windows.Forms.Label tab1Label1;
-	private System.Windows.Forms.Button tab1Button1;
+//  private System.Windows.Forms.Button tab1Button1;
+	private MyButton[] tab1Button;
+	private MyButton[] tab2Button;
+	private MyButton[] tab3Button;
 	private System.Windows.Forms.TabPage tabPage3;
 	private System.Windows.Forms.TabPage tabPage2;
 	private System.Windows.Forms.TabPage tabPage1;
@@ -28,8 +51,6 @@ public class Form1 : System.Windows.Forms.Form
 		this.ClientSize = new System.Drawing.Size(W_size.Width,W_size.Height);
 		InitializeComponent(W_size);
 	}
-
-
 	// This method is required for Designer support.
 	private void InitializeComponent(Size W_size)
 	{
@@ -44,7 +65,10 @@ public class Form1 : System.Windows.Forms.Form
 		this.tab1Label1 = new System.Windows.Forms.Label();
 		this.tabPage3 = new System.Windows.Forms.TabPage();
 		this.tabPage2 = new System.Windows.Forms.TabPage();
-		this.tab1Button1 = new System.Windows.Forms.Button();
+//    this.tab1Button1 = new System.Windows.Forms.Button();
+		this.tab1Button = new MyButton[3];
+//    this.tab2Button = new MyButton[3];
+//    this.tab3Button = new MyButton[3];
 
 		int allowance = 20;
 		Size T_size = new System.Drawing.Size(640,360);
@@ -53,15 +77,25 @@ public class Form1 : System.Windows.Forms.Form
 		tabControl1.Size = T_size;
 		tabControl1.SelectedIndex = 0;
 		tabControl1.TabIndex = 0;
-		tabPage1.Text = "eye";
+		tabPage1.Text = "cheek";
 		tabPage1.Size = T_size2;
 		tabPage1.TabIndex = 0;
-		tabPage2.Text = "tabPage2";
+		tabPage2.Text = "nose";
 		tabPage2.Size = T_size2;
 		tabPage2.TabIndex = 1;
-		tabPage3.Text = "tabPage3";
+		tabPage3.Text = "mouse";
 		tabPage3.Size = T_size2;
 		tabPage3.TabIndex = 2;
+		for(int i = 0;i < 3;i++){
+			string s = i.ToString();
+			tab1Button[i] = new MyButton(0,i){
+				Text = "cheek"+s,
+					Location = new System.Drawing.Point(10,50+i*50),
+					Size = new System.Drawing.Size(80,40),
+					TabIndex = i,
+			};
+			tab1Button[i].Click += new System.EventHandler(this.tab1Button_Click);
+		}
 		tab2CheckBox3.Location = new System.Drawing.Point(32, 136);
 		tab2CheckBox3.Text = "checkBox3";
 		tab2CheckBox3.Size = new System.Drawing.Size(176, 32);
@@ -85,16 +119,12 @@ public class Form1 : System.Windows.Forms.Form
 		tab3RadioButton1.Text = "radioButton1";
 		tab3RadioButton1.Size = new System.Drawing.Size(152, 24);
 		tab3RadioButton1.TabIndex = 0;
-		tab1Label1.Location = new System.Drawing.Point(16, 24);
-		tab1Label1.Text = "label1";
-		tab1Label1.Size = new System.Drawing.Size(224, 96);
-		tab1Label1.TabIndex = 1;
-		tab1Button1.Location = new System.Drawing.Point(88, 144);
-		tab1Button1.Size = new System.Drawing.Size(80, 40);
-		tab1Button1.TabIndex = 0;
-		tab1Button1.Text = "button1";
-		tab1Button1.Click += new 
-			System.EventHandler(this.tab1Button1_Click);
+//    tab1Button1.Location = new System.Drawing.Point(88, 144);
+//    tab1Button1.Size = new System.Drawing.Size(80, 40);
+//    tab1Button1.TabIndex = 0;
+//    tab1Button1.Text = "button1";
+//    tab1Button.Click += new 
+//      System.EventHandler(this.tab1Button_Click);
 		this.Text = "Form1";
 
 		// Adds controls to the second tab page.
@@ -106,7 +136,9 @@ public class Form1 : System.Windows.Forms.Form
 		tabPage3.Controls.Add(this.tab3RadioButton1);
 		// Adds controls to the first tab page.
 		tabPage1.Controls.Add(this.tab1Label1);
-		tabPage1.Controls.Add(this.tab1Button1);
+//    tabPage1.Controls.Add(this.tab1Button1);
+		for(int i = 0;i < 3;i++)
+			tabPage1.Controls.Add(this.tab1Button[i]);
 		// Adds the TabControl to the form.
 		this.Controls.Add(this.tabControl1);
 		// Adds the tab pages to the TabControl.
@@ -115,7 +147,7 @@ public class Form1 : System.Windows.Forms.Form
 		tabControl1.Controls.Add(this.tabPage3);
 	}
 
-	private void tab1Button1_Click (object sender, System.EventArgs e)
+	private void tab1Button_Click (object sender, System.EventArgs e)
 	{
 		// Inserts the code that should run when the button is clicked.
 	}
