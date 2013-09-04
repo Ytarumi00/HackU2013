@@ -95,7 +95,7 @@ public class Form1 : System.Windows.Forms.Form
 						 Size = new System.Drawing.Size(80,40),
 						 TabIndex = i,
 			};
-			tab1Button[i].Click += new System.EventHandler(this.tab1Button_Click);
+			tab1Button[i].Click += new System.EventHandler(this.TabButton_Click);
 		}
 		for(int i = 0;i < 3;i++){
 			string s = i.ToString();
@@ -105,7 +105,7 @@ public class Form1 : System.Windows.Forms.Form
 						 Size = new System.Drawing.Size(80,40),
 						 TabIndex = i,
 			};
-			tab2Button[i].Click += new System.EventHandler(this.tab2Button_Click);
+			tab2Button[i].Click += new System.EventHandler(this.TabButton_Click);
 		}
 		for(int i = 0;i < 3;i++){
 			string s = i.ToString();
@@ -115,7 +115,7 @@ public class Form1 : System.Windows.Forms.Form
 						 Size = new System.Drawing.Size(80,40),
 						 TabIndex = i,
 			};
-			tab3Button[i].Click += new System.EventHandler(this.tab3Button_Click);
+			tab3Button[i].Click += new System.EventHandler(this.TabButton_Click);
 		}
 
 		//    tab2CheckBox3.Location = new System.Drawing.Point(32, 136);
@@ -174,18 +174,20 @@ public class Form1 : System.Windows.Forms.Form
 		tabControl1.Controls.Add(this.tabPage3);
 	}
 
-	private void tab1Button_Click (object sender, System.EventArgs e)
+	private void TabButton_Click (object sender, System.EventArgs e)
 	{
-		// Inserts the code that should run when the button is clicked.
+		Console.Write((sender as MyButton).tab_num);
+		Console.Write((sender as MyButton).val\n);
+
 	}
-	private void tab2Button_Click (object sender, System.EventArgs e)
-	{
-		// Inserts the code that should run when the button is clicked.
-	}
-	private void tab3Button_Click (object sender, System.EventArgs e)
-	{
-		// Inserts the code that should run when the button is clicked.
-	}
+	// private void tab2Button_Click (object sender, System.EventArgs e)
+	// {
+	// 	// Inserts the code that should run when the button is clicked.
+	// }
+	// private void tab3Button_Click (object sender, System.EventArgs e)
+	// {
+	// 	// Inserts the code that should run when the button is clicked.
+	// }
 }
 class Program{
 	public static void Main(string[] args)
