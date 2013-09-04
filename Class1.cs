@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 using OpenCvSharp;
 using System.Runtime.CompilerServices;
 using System.Drawing;
@@ -149,7 +149,7 @@ class Form1 : Form
         int allowance = 20;
         Size T_size = new System.Drawing.Size(640, 360);
         Size T_size2 = new System.Drawing.Size(640, 20);
-        tabControl1.Location = new System.Drawing.Point(allowance, W_size.Height / 2 - 50);
+        tabControl1.Location = new System.Drawing.Point(allowance, W_size.Height / 2 );
         tabControl1.Size = T_size;
         tabControl1.SelectedIndex = 0;
         tabControl1.TabIndex = 0;
