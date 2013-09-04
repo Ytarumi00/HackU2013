@@ -25,11 +25,11 @@ public class MyButton : Button{
 	}
 }
 public class get_TabImage{
-	private string pass = "/home/yu-suke/Pictures/";
+	private string pass ;
 	private ImageFormat fmt = ImageFormat.Png;
 	private string fullpass_filename;
 	public Bitmap[] img;
-	get_TabImage(string file_name,int file_num){
+	get_TabImage(string pass, string file_name,int file_num){
 		string passfile = pass+file_name;
 		this.img = Bitmap[file_num];
 		for(int i = 0;i < file_num;i++){
@@ -105,13 +105,14 @@ public class Form1 : System.Windows.Forms.Form
 		tabPage3.TabIndex = 2;
 
 		for(int i = 0;i < 3;i++){
+			get_TabImage TabImage = new get_TabImage("/home/yu-suke/Pictures/","cheek",3);
 			string s = i.ToString();
 			tab1Button[i] = new MyButton(0,i){
-				Image = Image.FromFile("/home/yu-suke/Pictures/cheek_00.png"),
+				Image = TabImage.img[i],
 							Text = "test",
-						 Location = new System.Drawing.Point(10,50+i*50),
-						 Size = new System.Drawing.Size(80,40),
-						 TabIndex = i,
+							Location = new System.Drawing.Point(10,50+i*50),
+							Size = new System.Drawing.Size(80,40),
+							TabIndex = i,
 			};
 			tab1Button[i].Click += new System.EventHandler(this.TabButton_Click);
 		}
