@@ -89,10 +89,10 @@ public class opencvsharp_test
 	}
 
 
-	public void loadimage()
-	{
-		testImage = Cv.LoadImage("image.png");
-	}
+    public void loadimage()
+    {
+        testImage = Cv.LoadImage("sample_640.jpg");
+    }
 
 	public void myshowImage()
 	{
@@ -101,33 +101,33 @@ public class opencvsharp_test
 
 	}
 
-	void readXML()
-	{
-		FaceXml.Load("facedetect.xml");
-		XmlNode root = FaceXml.DocumentElement;
-		XmlNode faces = root.FirstChild;
+    void readXML()
+    {
+        FaceXml.Load("sample-2.xml");
+        XmlNode root = FaceXml.DocumentElement;
+        XmlNode faces = root.FirstChild;
 
-		Console.WriteLine(((XmlElement)faces).GetAttribute("id"));
-		XmlNode bounds = faces.SelectSingleNode("bounds");
-		Console.WriteLine(((XmlElement)bounds).GetAttribute("width"));
-		XmlNode righteye = faces.SelectSingleNode("right-eye");
-		XmlNode lefteye = faces.SelectSingleNode("left-eye");
-		XmlNode features = faces.SelectSingleNode("features");
+        Console.WriteLine(((XmlElement)faces).GetAttribute("id"));
+        XmlNode bounds = faces.SelectSingleNode("bounds");
+        Console.WriteLine(((XmlElement)bounds).GetAttribute("width"));
+        XmlNode righteye = faces.SelectSingleNode("right-eye");
+        XmlNode lefteye = faces.SelectSingleNode("left-eye");
+        XmlNode features = faces.SelectSingleNode("features");
 
 
-		//featuresの子供Points一斉走査
-		XmlNodeList featuresChildren = features.ChildNodes;
-		string Point_X;
-		string Point_Y;
-		foreach (XmlNode featurechild in featuresChildren)
-		{
-			Console.WriteLine(" id={1}, X=  {0},Y={2}", ((XmlElement)featurechild).GetAttribute("x"), ((XmlElement)featurechild).GetAttribute("id"), ((XmlElement)featurechild).GetAttribute("y"));
-			Point_X = ((XmlElement)featurechild).GetAttribute("x");
-			Point_Y = ((XmlElement)featurechild).GetAttribute("y");
-			facePoints.set_point(int.Parse(Point_X), int.Parse(Point_Y), ((XmlElement)featurechild).GetAttribute("id"));
-		}
-		Console.WriteLine("debug:facesPoints_count:{0}", facePoints.get_count());
-		Console.WriteLine("debug: [20]'s number id is {0}",facePoints.get_PointLabel(20));
+        //featuresの子供Points一斉走査
+        XmlNodeList featuresChildren = features.ChildNodes;
+        string Point_X;
+        string Point_Y;
+        foreach (XmlNode featurechild in featuresChildren)
+        {
+            Console.WriteLine(" id={1}, X=  {0},Y={2}", ((XmlElement)featurechild).GetAttribute("x"), ((XmlElement)featurechild).GetAttribute("id"), ((XmlElement)featurechild).GetAttribute("y"));
+            Point_X = ((XmlElement)featurechild).GetAttribute("x");
+            Point_Y = ((XmlElement)featurechild).GetAttribute("y");
+            facePoints.set_point(int.Parse(Point_X), int.Parse(Point_Y), ((XmlElement)featurechild).GetAttribute("id"));
+        }
+        Console.WriteLine("debug:facesPoints_count:{0}", facePoints.get_count());
+        Console.WriteLine("debug: [20]'s number id is {0}",facePoints.get_PointLabel(20));
 
 		Console.WriteLine(facePoints.find_label_point_X("N2"));
 
@@ -399,10 +399,12 @@ public class Form1 : System.Windows.Forms.Form
                     case 1:
                         //口のエフェクト1
                         System.Console.Write("button number is {0}\n", button_number);
+                        tmpImg = effectMouthPink(tmpImg, tmpImg);
                         break;
                     case 2:
                         //口のエフェクト2
                         System.Console.Write("button number is {0}\n", button_number);
+                        tmpImg = effectMouthOrange(tmpImg, tmpImg);
                         break;
                     default:
                         //エラー処理（エフェクト番号違い)
@@ -459,7 +461,7 @@ public class Form1 : System.Windows.Forms.Form
         orange.Val0 = 20;
         orange.Val1 = 10;
         orange.Val2 = 200;
-        Cv.FillPoly(tmpImage, points, orange);
+        Cv.FillPoly(copyImage, points, orange);
         Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
@@ -501,7 +503,7 @@ public class Form1 : System.Windows.Forms.Form
         orange.Val0 = 159;
         orange.Val1 = 168;
         orange.Val2 = 251;
-        Cv.FillPoly(tmpImage, points, orange);
+        Cv.FillPoly(copyImage, points, orange);
         Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
@@ -543,7 +545,7 @@ public class Form1 : System.Windows.Forms.Form
         orange.Val0 = 0;
         orange.Val1 = 140;
         orange.Val2 = 255;
-        Cv.FillPoly(tmpImage, points, orange);
+        Cv.FillPoly(copyImage, points, orange);
         Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
