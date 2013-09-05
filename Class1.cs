@@ -10,18 +10,68 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 
-struct MyPoints
-{
-    public int x;
-    public int y;
-    public double s;
-}
 
+public class test_list
+{
+    struct point
+    {
+        public int x;
+        public int y;
+        public string Label;
+    }
+    private List<point> lst = new List<point>();
+    public void set_point(int X, int Y,string label)
+    {
+        point temp;
+        temp.x = X;
+        temp.y = Y;
+        temp.Label = label;
+        lst.Add(temp);
+    }
+    public int get_pointX(int i)
+    {
+        return this.lst[i].x;
+    }
+
+    public int get_pointY(int i)
+    {
+        return this.lst[i].y;
+    }
+
+    public string get_PointLabel(int i)
+    {
+
+        return this.lst[i].Label;
+    }
+
+    public int get_count()
+    {
+        return this.lst.Count;
+    }
+
+    public int find_label_point_X(string label)
+    {
+        point tmp;
+        tmp = lst.Find(delegate(point point) { return point.Label == label; });
+
+        return tmp.x;
+    }
+    public int find_label_point_Y(string label)
+    {
+        point tmp;
+        tmp = lst.Find(delegate(point point) { return point.Label == label; });
+
+        return tmp.y;
+    }
+
+
+}
 
 public class opencvsharp_test
 {
     public IplImage testImage;
     private XmlDocument FaceXml;
+    public test_list facePoints;
 
     public opencvsharp_test()
     {
@@ -32,7 +82,7 @@ public class opencvsharp_test
     private void Init()
     {
         this.FaceXml = new XmlDocument();
-
+        this.facePoints = new test_list();
         readXML();
 
     }
@@ -53,14 +103,33 @@ public class opencvsharp_test
     void readXML()
     {
         FaceXml.Load("facedetect.xml");
-        XmlElement root = FaceXml.DocumentElement;
-        Console.WriteLine(root.Name);
+        XmlNode root = FaceXml.DocumentElement;
+        XmlNode faces = root.FirstChild;
 
-        XmlNodeList faces = root.GetElementsByTagName("face");
-        Console.WriteLine(faces.Item(0).Name);
+        Console.WriteLine(((XmlElement)faces).GetAttribute("id"));
+        XmlNode bounds = faces.SelectSingleNode("bounds");
+        Console.WriteLine(((XmlElement)bounds).GetAttribute("width"));
+        XmlNode righteye = faces.SelectSingleNode("right-eye");
+        XmlNode lefteye = faces.SelectSingleNode("left-eye");
+        XmlNode features = faces.SelectSingleNode("features");
 
-        
-        
+
+        //featuresの子供Points一斉走査
+        XmlNodeList featuresChildren = features.ChildNodes;
+        string Point_X;
+        string Point_Y;
+        foreach (XmlNode featurechild in featuresChildren)
+        {
+            Console.WriteLine(" id={1}, X=  {0},Y={2}", ((XmlElement)featurechild).GetAttribute("x"), ((XmlElement)featurechild).GetAttribute("id"), ((XmlElement)featurechild).GetAttribute("y"));
+            Point_X = ((XmlElement)featurechild).GetAttribute("x");
+            Point_Y = ((XmlElement)featurechild).GetAttribute("y");
+            facePoints.set_point(int.Parse(Point_X), int.Parse(Point_Y), ((XmlElement)featurechild).GetAttribute("id"));
+        }
+        Console.WriteLine("debug:facesPoints_count:{0}", facePoints.get_count());
+        Console.WriteLine("debug: [20]'s number id is {0}",facePoints.get_PointLabel(20));
+
+        Console.WriteLine(facePoints.find_label_point_X("N2"));
+
         //XmlNodeList bounds = facesElement.GetElementsByTagName("bounds");
         //XmlElement boundsElement = (XmlElement)bounds.Item(0);
         //Console.WriteLine("X={0},Y={1},width = {2},height = {3}", boundsElement.GetAttribute("x"), boundsElement.GetAttribute("y"), boundsElement.GetAttribute("width"), boundsElement.GetAttribute("height"));
@@ -333,8 +402,81 @@ class Form1 : Form
 
         }
         return tmpImg;
-
     }
+
+    public IplImage effectMouthRed(IplImage srcImage, IplImage copyImage)
+    {
+        IplImage tmpImage = Cv.CloneImage(srcImage);
+        CvPoint points;
+   
+        /*
+         * 口の座標取得ここに入れる
+         * 
+         * */
+
+        //Cv.FillPoly();
+        //Cv.AddWeighted();
+        return tmpImage;
+    }
+
+    public IplImage effectMouthPink(IplImage srcImage, IplImage copyImage)
+    {
+        IplImage tmpImage = Cv.CloneImage(srcImage);
+        CvPoint points;
+
+        /*
+         * 口の座標取得ここに入れる
+         * 
+         * */
+
+        //Cv.FillPoly();
+        //Cv.AddWeighted();
+        return tmpImage;
+    }
+
+    public IplImage effectMouthOrange(IplImage srcImage, IplImage copyImage)
+    {
+        IplImage tmpImage = Cv.CloneImage(srcImage);
+        CvPoint points;
+
+        /*
+         * 口の座標取得ここに入れる
+         * 
+         * */
+
+        //Cv.FillPoly();
+        //Cv.AddWeighted();
+        return tmpImage;
+    }
+
+
+    /*
+     * C++版エフェクト
+     *IplImage* effectMouthRed(IplImage* srcImage, IplImage* copyImage)
+{
+	//口の座標取得部分ここから
+	CvPoint** points;
+	string parts_name = "MOUTH";
+
+	points = (CvPoint**)cvAlloc(sizeof(CvPoint*));
+	points[0] = (CvPoint*)cvAlloc(sizeof(CvPoint)*parts[parts_name].size());
+	int number[1];
+	number[0] = parts[parts_name].size();
+	for(unsigned int i = 0; i < parts[parts_name].size(); ++i){
+		points[0][i].x = parts[parts_name][i].x;
+		points[0][i].y = parts[parts_name][i].y;
+	}
+	//口の座標ここまで
+	//M9以外を使っている
+	cvFillPoly(copyImage, points, number, 1, cvScalar(20,10,200));
+	cvAddWeighted(copyImage, 0.2, srcImage, 0.8, 0, srcImage);
+
+	return srcImage;
+}
+* */
+
+
+
 
 
     //テストエフェクト
