@@ -90,7 +90,7 @@ public class opencvsharp_test
 
 	public void loadimage()
 	{
-		testImage = Cv.LoadImage("image.jpg");
+		testImage = Cv.LoadImage("image.png");
 	}
 
 	public void myshowImage()
