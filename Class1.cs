@@ -268,9 +268,9 @@ public class Form1 : System.Windows.Forms.Form
 		tabPage3.Text = "mouse";
 		tabPage3.Size = T_size2;
 		tabPage3.TabIndex = 2;
-		tabPage3.Text = "eyeshadow";
-		tabPage3.Size = T_size2;
-		tabPage3.TabIndex = 3;
+		tabPage4.Text = "eyeshadow";
+		tabPage4.Size = T_size2;
+		tabPage4.TabIndex = 3;
 
 		get_TabImage Tab1Image = new get_TabImage("TabImages/cheek/", "cheek", 3);
 		for (int i = 0; i < 3; i++)
@@ -351,7 +351,7 @@ public class Form1 : System.Windows.Forms.Form
 					 Cursor = Cursors.Hand,
 		};
 		tab3Button[3].Click += new System.EventHandler(this.TabButton_Click);
-		tab3Button[4] = new MyButton(2, 3)
+		tab4Button[3] = new MyButton(2, 3)
 		{
 			Text = "Reset",
 					 Location = new System.Drawing.Point(T_size.Width - B_size.Width - 20, T_size.Height / 4),
@@ -359,7 +359,7 @@ public class Form1 : System.Windows.Forms.Form
 					 TabIndex = 3,
 					 Cursor = Cursors.Hand,
 		};
-		tab3Button[4].Click += new System.EventHandler(this.TabButton_Click);
+		tab4Button[3].Click += new System.EventHandler(this.TabButton_Click);
 
 		this.Text = "Form1";
 
@@ -369,6 +369,8 @@ public class Form1 : System.Windows.Forms.Form
 			tabPage2.Controls.Add(this.tab2Button[i]);
 		for (int i = 0; i < 4; i++)
 			tabPage3.Controls.Add(this.tab3Button[i]);
+		for (int i = 0; i < 4; i++)
+			tabPage4.Controls.Add(this.tab4Button[i]);
 
 		this.Controls.Add(this.tabControl1);
 
@@ -378,6 +380,7 @@ public class Form1 : System.Windows.Forms.Form
 		tabControl1.Controls.Add(this.tabPage1);
 		tabControl1.Controls.Add(this.tabPage2);
 		tabControl1.Controls.Add(this.tabPage3);
+		tabControl1.Controls.Add(this.tabPage4);
 	}
 
 
