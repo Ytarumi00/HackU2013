@@ -91,7 +91,7 @@ public class opencvsharp_test
 
 	public void loadimage()
 	{
-		testImage = Cv.LoadImage("sample_640.jpg");
+		testImage = Cv.LoadImage("sample_640.png");
 	}
 
 	public void myshowImage()
@@ -152,29 +152,29 @@ public class opencvsharp_test
 
 public class MyButton : Button
 {
-    private int tab_num;
-    private int val;
-    public MyButton(int t, int v)
-    {
-        set_tab_num(t);
-        set_val(v);
-    }
-    void set_tab_num(int t)
-    {
-        this.tab_num = t;
-    }
-    void set_val(int v)
-    {
-        this.val = v;
-    }
-    public int get_tab_num()
-    {
-        return this.tab_num;
-    }
-    public int get_val()
-    {
-        return this.val;
-    }
+	private int tab_num;
+	private int val;
+	public MyButton(int t, int v)
+	{
+		set_tab_num(t);
+		set_val(v);
+	}
+	void set_tab_num(int t)
+	{
+		this.tab_num = t;
+	}
+	void set_val(int v)
+	{
+		this.val = v;
+	}
+	public int get_tab_num()
+	{
+		return this.tab_num;
+	}
+	public int get_val()
+	{
+		return this.val;
+	}
 }
 
 public class get_TabImage{
@@ -196,364 +196,373 @@ public class get_TabImage{
 
 public class Form1 : System.Windows.Forms.Form
 {
-    // Required designer variable.
-    private System.ComponentModel.Container components;
+	// Required designer variable.
+	private System.ComponentModel.Container components;
 
 
-    private MyButton[] tab1Button;
-    private MyButton[] tab2Button;
-    private MyButton[] tab3Button;
-    private System.Windows.Forms.TabPage tabPage3;
-    private System.Windows.Forms.TabPage tabPage2;
-    private System.Windows.Forms.TabPage tabPage1;
-    private System.Windows.Forms.TabControl tabControl1;
+	private MyButton[] tab1Button;
+	private MyButton[] tab2Button;
+	private MyButton[] tab3Button;
+	private System.Windows.Forms.TabPage tabPage3;
+	private System.Windows.Forms.TabPage tabPage2;
+	private System.Windows.Forms.TabPage tabPage1;
+	private System.Windows.Forms.TabControl tabControl1;
 
-    private System.Windows.Forms.PictureBox Face;
-    private opencvsharp_test picture;
+	private System.Windows.Forms.PictureBox Face;
+	private System.Windows.Forms.PictureBox static_Face;
+	private opencvsharp_test picture;
+//  private opencvsharp_test static_picture;
 
-    public Form1()
-    {
-        // This call is required for Windows Form Designer support.
-        Size W_size = new Size(680, 640);
-        this.ClientSize = new System.Drawing.Size(W_size.Width, W_size.Height);
-        InitializeComponent(W_size);
-    }
-    // This method is required for Designer support.
-    private void InitializeComponent(Size W_size)
-    {
-        this.components = new System.ComponentModel.Container();
-        this.tabControl1 = new System.Windows.Forms.TabControl();
-        this.tabPage1 = new System.Windows.Forms.TabPage();
-        this.tabPage2 = new System.Windows.Forms.TabPage();
-        this.tabPage3 = new System.Windows.Forms.TabPage();
-        this.tab1Button = new MyButton[3];
-        this.tab2Button = new MyButton[3];
-        this.tab3Button = new MyButton[3];
+	public Form1()
+	{
+		// This call is required for Windows Form Designer support.
+		Size W_size = new Size(1340, 700);
+		this.ClientSize = new System.Drawing.Size(W_size.Width, W_size.Height);
+		InitializeComponent(W_size);
+	}
+	// This method is required for Designer support.
+	private void InitializeComponent(Size W_size)
+	{
+		this.components = new System.ComponentModel.Container();
+		this.tabControl1 = new System.Windows.Forms.TabControl();
+		this.tabPage1 = new System.Windows.Forms.TabPage();
+		this.tabPage2 = new System.Windows.Forms.TabPage();
+		this.tabPage3 = new System.Windows.Forms.TabPage();
+		this.tab1Button = new MyButton[3];
+		this.tab2Button = new MyButton[3];
+		this.tab3Button = new MyButton[3];
 
-        //江夏側の設定部分
-        //Face:UIに出力する顔画像部分のPicture Box
-        //picture:OpenCVSharpで顔画像の読み込みクラス
-        this.Face = new System.Windows.Forms.PictureBox();
-        this.picture = new opencvsharp_test();
+		//江夏側の設定部分
+		//Face:UIに出力する顔画像部分のPicture Box
+		//picture:OpenCVSharpで顔画像の読み込みクラス
+		this.Face = new System.Windows.Forms.PictureBox();
+		this.static_Face = new System.Windows.Forms.PictureBox();
+		this.picture = new opencvsharp_test();
+//    this.static_picture = new opencvsharp_test();
 
-        Face.Location = new Point(20, 20);
-        Face.Image = picture.testImage.ToBitmap();
-        Face.Size = new System.Drawing.Size(640, 480);
-
-
-        int allowance = 50;
-        int first_x = 50;
-        Size T_size = new System.Drawing.Size(W_size.Width - 40, W_size.Height / 2 - 40);
-        Size T_size2 = new System.Drawing.Size(640, 20);
-        Size B_size = new System.Drawing.Size(60, 80);
-        tabControl1.Location = new System.Drawing.Point(20, W_size.Height / 2 + 30);
-        tabControl1.Size = T_size;
-        tabControl1.SelectedIndex = 0;
-        tabControl1.TabIndex = 0;
-        tabPage1.Text = "cheek";
-        tabPage1.Size = T_size2;
-        tabPage1.TabIndex = 0;
-        tabPage2.Text = "eye";
-        tabPage2.Size = T_size2;
-        tabPage2.TabIndex = 1;
-        tabPage3.Text = "mouse";
-        tabPage3.Size = T_size2;
-        tabPage3.TabIndex = 2;
-
-        get_TabImage Tab1Image = new get_TabImage("TabImages/cheek/", "cheek", 3);
-        for (int i = 0; i < 3; i++)
-        {
-            tab1Button[i] = new MyButton(0, i)
-            {
-                Image = Tab1Image.img[i],
-                Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 2),
-                Size = B_size,
-                TabIndex = i,
-            };
-            tab1Button[i].Click += new System.EventHandler(this.TabButton_Click);
-        }
-        get_TabImage Tab2Image = new get_TabImage("TabImages/eye/", "eye", 3);
-        for (int i = 0; i < 3; i++)
-        {
-            tab2Button[i] = new MyButton(1, i)
-            {
-                Image = Tab2Image.img[i],
-                Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 2),
-                Size = B_size,
-                TabIndex = i,
-            };
-            tab2Button[i].Click += new System.EventHandler(this.TabButton_Click);
-        }
-        get_TabImage Tab3Image = new get_TabImage("TabImages/mouse/", "mouse", 3);
-        for (int i = 0; i < 3; i++)
-        {
-            tab3Button[i] = new MyButton(2, i)
-            {
-                Image = Tab3Image.img[i],
-                Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 2),
-                Size = B_size,
-                TabIndex = i,
-            };
-            tab3Button[i].Click += new System.EventHandler(this.TabButton_Click);
-        }
-
-        this.Text = "Form1";
-
-        for (int i = 0; i < 3; i++)
-            tabPage1.Controls.Add(this.tab1Button[i]);
-        for (int i = 0; i < 3; i++)
-            tabPage2.Controls.Add(this.tab2Button[i]);
-        for (int i = 0; i < 3; i++)
-            tabPage3.Controls.Add(this.tab3Button[i]);
-
-        this.Controls.Add(this.tabControl1);
-
-        this.Controls.Add(this.Face);
-
-        tabControl1.Controls.Add(this.tabPage1);
-        tabControl1.Controls.Add(this.tabPage2);
-        tabControl1.Controls.Add(this.tabPage3);
-    }
+		Face.Location = new Point(W_size.Width-660, 20);
+		static_Face.Location = new Point(20,20);
+		Face.Image = picture.testImage.ToBitmap();
+		static_Face.Image = picture.testImage.ToBitmap();
+		Face.Size = new System.Drawing.Size(640, 480);
+		static_Face.Size = new System.Drawing.Size(640, 480);
 
 
-    private void TabButton_Click(object sender, System.EventArgs e)
-    {
-        IplImage tmpImage;
-        tmpImage = Cv.CloneImage(picture.testImage);
 
-        Console.Write((sender as MyButton).get_tab_num());
-        Console.Write((sender as MyButton).get_val());
-        tmpImage = face_change((sender as MyButton).get_tab_num(), (sender as MyButton).get_val(), picture.testImage);
-        Face.Image = tmpImage.ToBitmap();    
-    }
-    IplImage face_change(int tab_number, int button_number,IplImage inputImg)
-    {
-        //口と鼻とほほ
-        //ほほ:tab_number=0;
-        //鼻：tab_number = 1;
-        //口：tab_number = 2;
-        //tmpImg:編集用画像
+		int allowance = 50;
+		int first_x = 50;
+		Size T_size = new System.Drawing.Size(W_size.Width - 40, 180 - 20);
+		Size T_size2 = new System.Drawing.Size(40, 20);
+		Size B_size = new System.Drawing.Size(60, 80);
+		tabControl1.Location = new System.Drawing.Point(20, 520);
+		tabControl1.Size = T_size;
+		tabControl1.SelectedIndex = 0;
+		tabControl1.TabIndex = 0;
+		tabPage1.Text = "cheek";
+		tabPage1.Size = T_size2;
+		tabPage1.TabIndex = 0;
+		tabPage2.Text = "eye";
+		tabPage2.Size = T_size2;
+		tabPage2.TabIndex = 1;
+		tabPage3.Text = "mouse";
+		tabPage3.Size = T_size2;
+		tabPage3.TabIndex = 2;
 
-        IplImage tmpImg = Cv.CloneImage(inputImg);
+		get_TabImage Tab1Image = new get_TabImage("TabImages/cheek/", "cheek", 3);
+		for (int i = 0; i < 3; i++)
+		{
+			tab1Button[i] = new MyButton(0, i)
+			{
+				Image = Tab1Image.img[i],
+							Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 4),
+							Size = B_size,
+							TabIndex = i,
+			};
+			tab1Button[i].Click += new System.EventHandler(this.TabButton_Click);
+		}
+		get_TabImage Tab2Image = new get_TabImage("TabImages/eye/", "eye", 3);
+		for (int i = 0; i < 3; i++)
+		{
+			tab2Button[i] = new MyButton(1, i)
+			{
+				Image = Tab2Image.img[i],
+							Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 4),
+							Size = B_size,
+							TabIndex = i,
+			};
+			tab2Button[i].Click += new System.EventHandler(this.TabButton_Click);
+		}
+		get_TabImage Tab3Image = new get_TabImage("TabImages/mouse/", "mouse", 3);
+		for (int i = 0; i < 3; i++)
+		{
+			tab3Button[i] = new MyButton(2, i)
+			{
+				Image = Tab3Image.img[i],
+							Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 4),
+							Size = B_size,
+							TabIndex = i,
+			};
+			tab3Button[i].Click += new System.EventHandler(this.TabButton_Click);
+		}
 
-        System.Console.Write("入力されたtab:{0},button:{1}\n", tab_number, button_number);
-        switch (tab_number)
-        {
-            case 0:
-                //ほほについて
-                System.Console.Write("test 0\n");
-                switch (button_number)
-                {
-                    case 0:
-                        //ほほのエフェクト0
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    case 1:
-                        //ほほのエフェクト1
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    case 2:
-                        //ほほのエフェクト2
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    default:
-                        //エラー処理（エフェクト番号間違い)
-                        System.Console.Write("Error!予期せぬbutton番号です\n");
-                        break;
-                }
-                break;
-            case 1:
-                //鼻について
-                System.Console.Write("test 1\n");
-                switch (button_number)
-                {
-                    case 0:
-                        //鼻のエフェクト0
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    case 1:
-                        //鼻のエフェクト1
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    case 2:
-                        //鼻のエフェクト2
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    default:
-                        //エラー処理(エフェクト番号違い)
-                        System.Console.Write("Error!予期せぬbutton番号です\n");
-                        break;
-                }
-                break;
-            case 2:
-                //口について
-                System.Console.Write("test 2\n");
-                switch (button_number)
-                {
-                    case 0:
-                        //口のエフェクト0
-                        System.Console.Write("button number is {0}\n", button_number);
-                        System.Console.Write("test button");
-                        tmpImg = effectMouthRed(tmpImg, tmpImg);
-                        break;
-                    case 1:
-                        //口のエフェクト1
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    case 2:
-                        //口のエフェクト2
-                        System.Console.Write("button number is {0}\n", button_number);
-                        break;
-                    default:
-                        //エラー処理（エフェクト番号違い)
-                        System.Console.Write("Error!予期せぬbutton番号です\n");
-                        break;
-                }
-                break;
-            default:
-                //エラー処理（タブ番号違い)
-                System.Console.Write("Error!予期せぬ番号です.現在はテスト用のエフェクトが走ります");
-                //tmpImg = test_effect(tmpImg);
-                tmpImg = effectMouthOrange(tmpImg, tmpImg);
-                
-                break;
+		this.Text = "Form1";
 
-        }
-        return tmpImg;
-    }
+		for (int i = 0; i < 3; i++)
+			tabPage1.Controls.Add(this.tab1Button[i]);
+		for (int i = 0; i < 3; i++)
+			tabPage2.Controls.Add(this.tab2Button[i]);
+		for (int i = 0; i < 3; i++)
+			tabPage3.Controls.Add(this.tab3Button[i]);
 
-    public IplImage effectMouthRed(IplImage srcImage, IplImage copyImage)
-    {
-        IplImage tmpImage = Cv.CloneImage(srcImage);
+		this.Controls.Add(this.tabControl1);
 
-        CvPoint M1;
-        M1.X = picture.facePoints.find_label_point_X("M1");
-        M1.Y = picture.facePoints.find_label_point_Y("M1");
-        CvPoint M2;
-        M2.X = picture.facePoints.find_label_point_X("M2");
-        M2.Y = picture.facePoints.find_label_point_Y("M2");
-        CvPoint M3;
-        M3.X = picture.facePoints.find_label_point_X("M3");
-        M3.Y = picture.facePoints.find_label_point_Y("M3");
-        CvPoint M4;
-        M4.X = picture.facePoints.find_label_point_X("M4");
-        M4.Y = picture.facePoints.find_label_point_Y("M4");
-        CvPoint M5;
-        M5.X = picture.facePoints.find_label_point_X("M5");
-        M5.Y = picture.facePoints.find_label_point_Y("M5");
-        CvPoint M6;
-        M6.X = picture.facePoints.find_label_point_X("M6");
-        M6.Y = picture.facePoints.find_label_point_Y("M6");
-        CvPoint M7;
-        M7.X = picture.facePoints.find_label_point_X("M7");
-        M7.Y = picture.facePoints.find_label_point_Y("M7");
-        CvPoint M8;
-        M8.X = picture.facePoints.find_label_point_X("M8");
-        M8.Y = picture.facePoints.find_label_point_Y("M8");
+		this.Controls.Add(this.Face);
+		this.Controls.Add(this.static_Face);
 
-        CvPoint[][] points = new CvPoint[][]{
-            new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
-        };
-        CvScalar orange;
-        orange = new CvScalar();
-        orange.Val0 = 20;
-        orange.Val1 = 10;
-        orange.Val2 = 200;
-        Cv.FillPoly(tmpImage, points, orange);
-        Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
-        return tmpImage;
-    }
-
-    public IplImage effectMouthPink(IplImage srcImage, IplImage copyImage)
-    {
-        IplImage tmpImage = Cv.CloneImage(srcImage);
-
-        CvPoint M1;
-        M1.X = picture.facePoints.find_label_point_X("M1");
-        M1.Y = picture.facePoints.find_label_point_Y("M1");
-        CvPoint M2;
-        M2.X = picture.facePoints.find_label_point_X("M2");
-        M2.Y = picture.facePoints.find_label_point_Y("M2");
-        CvPoint M3;
-        M3.X = picture.facePoints.find_label_point_X("M3");
-        M3.Y = picture.facePoints.find_label_point_Y("M3");
-        CvPoint M4;
-        M4.X = picture.facePoints.find_label_point_X("M4");
-        M4.Y = picture.facePoints.find_label_point_Y("M4");
-        CvPoint M5;
-        M5.X = picture.facePoints.find_label_point_X("M5");
-        M5.Y = picture.facePoints.find_label_point_Y("M5");
-        CvPoint M6;
-        M6.X = picture.facePoints.find_label_point_X("M6");
-        M6.Y = picture.facePoints.find_label_point_Y("M6");
-        CvPoint M7;
-        M7.X = picture.facePoints.find_label_point_X("M7");
-        M7.Y = picture.facePoints.find_label_point_Y("M7");
-        CvPoint M8;
-        M8.X = picture.facePoints.find_label_point_X("M8");
-        M8.Y = picture.facePoints.find_label_point_Y("M8");
-
-        CvPoint[][] points = new CvPoint[][]{
-            new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
-        };
-        CvScalar orange;
-        orange = new CvScalar();
-        orange.Val0 = 159;
-        orange.Val1 = 168;
-        orange.Val2 = 251;
-        Cv.FillPoly(tmpImage, points, orange);
-        Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
-        return tmpImage;
-    }
-
-    public IplImage effectMouthOrange(IplImage srcImage, IplImage copyImage)
-    {
-        IplImage tmpImage = Cv.CloneImage(srcImage);
-
-        CvPoint M1;
-        M1.X = picture.facePoints.find_label_point_X("M1");
-        M1.Y = picture.facePoints.find_label_point_Y("M1");
-        CvPoint M2;
-        M2.X = picture.facePoints.find_label_point_X("M2");
-        M2.Y = picture.facePoints.find_label_point_Y("M2");
-        CvPoint M3;
-        M3.X = picture.facePoints.find_label_point_X("M3");
-        M3.Y = picture.facePoints.find_label_point_Y("M3");
-        CvPoint M4;
-        M4.X = picture.facePoints.find_label_point_X("M4");
-        M4.Y = picture.facePoints.find_label_point_Y("M4");
-        CvPoint M5;
-        M5.X = picture.facePoints.find_label_point_X("M5");
-        M5.Y = picture.facePoints.find_label_point_Y("M5");
-        CvPoint M6;
-        M6.X = picture.facePoints.find_label_point_X("M6");
-        M6.Y = picture.facePoints.find_label_point_Y("M6");
-        CvPoint M7;
-        M7.X = picture.facePoints.find_label_point_X("M7");
-        M7.Y = picture.facePoints.find_label_point_Y("M7");
-        CvPoint M8;
-        M8.X = picture.facePoints.find_label_point_X("M8");
-        M8.Y = picture.facePoints.find_label_point_Y("M8");
-
-        CvPoint[][] points = new CvPoint[][]{
-            new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
-        };
-        CvScalar orange;
-        orange = new CvScalar();
-        orange.Val0 = 0;
-        orange.Val1 = 140;
-        orange.Val2 = 255;
-        Cv.FillPoly(tmpImage, points, orange);
-        Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
-        return tmpImage;
-    }
+		tabControl1.Controls.Add(this.tabPage1);
+		tabControl1.Controls.Add(this.tabPage2);
+		tabControl1.Controls.Add(this.tabPage3);
+	}
 
 
-    /*
-     * C++版エフェクト
-     *IplImage* effectMouthRed(IplImage* srcImage, IplImage* copyImage)
-{
->>>>>>> 843ef95bcd5689668125e96d6282ed219343ae90
+	private void TabButton_Click(object sender, System.EventArgs e)
+	{
+		IplImage tmpImage;
+		tmpImage = Cv.CloneImage(picture.testImage);
+
+		Console.Write((sender as MyButton).get_tab_num());
+		Console.Write((sender as MyButton).get_val());
+		tmpImage = face_change((sender as MyButton).get_tab_num(), (sender as MyButton).get_val(), picture.testImage);
+		Face.Image = tmpImage.ToBitmap();    
+	}
+	IplImage face_change(int tab_number, int button_number,IplImage inputImg)
+	{
+		//口と鼻とほほ
+		//ほほ:tab_number=0;
+		//鼻：tab_number = 1;
+		//口：tab_number = 2;
+		//tmpImg:編集用画像
+
+		IplImage tmpImg = Cv.CloneImage(inputImg);
+
+		System.Console.Write("入力されたtab:{0},button:{1}\n", tab_number, button_number);
+		switch (tab_number)
+		{
+		case 0:
+			//ほほについて
+			System.Console.Write("test 0\n");
+			switch (button_number)
+			{
+			case 0:
+				//ほほのエフェクト0
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			case 1:
+				//ほほのエフェクト1
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			case 2:
+				//ほほのエフェクト2
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			default:
+				//エラー処理（エフェクト番号間違い)
+				System.Console.Write("Error!予期せぬbutton番号です\n");
+				break;
+			}
+			break;
+		case 1:
+			//鼻について
+			System.Console.Write("test 1\n");
+			switch (button_number)
+			{
+			case 0:
+				//鼻のエフェクト0
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			case 1:
+				//鼻のエフェクト1
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			case 2:
+				//鼻のエフェクト2
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			default:
+				//エラー処理(エフェクト番号違い)
+				System.Console.Write("Error!予期せぬbutton番号です\n");
+				break;
+			}
+			break;
+		case 2:
+			//口について
+			System.Console.Write("test 2\n");
+			switch (button_number)
+			{
+			case 0:
+				//口のエフェクト0
+				System.Console.Write("button number is {0}\n", button_number);
+				System.Console.Write("test button");
+				tmpImg = effectMouthRed(tmpImg, tmpImg);
+				break;
+			case 1:
+				//口のエフェクト1
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			case 2:
+				//口のエフェクト2
+				System.Console.Write("button number is {0}\n", button_number);
+				break;
+			default:
+				//エラー処理（エフェクト番号違い)
+				System.Console.Write("Error!予期せぬbutton番号です\n");
+				break;
+			}
+			break;
+		default:
+			//エラー処理（タブ番号違い)
+			System.Console.Write("Error!予期せぬ番号です.現在はテスト用のエフェクトが走ります");
+			//tmpImg = test_effect(tmpImg);
+			tmpImg = effectMouthOrange(tmpImg, tmpImg);
+
+			break;
+
+		}
+		return tmpImg;
+	}
+
+	public IplImage effectMouthRed(IplImage srcImage, IplImage copyImage)
+	{
+		IplImage tmpImage = Cv.CloneImage(srcImage);
+
+		CvPoint M1;
+		M1.X = picture.facePoints.find_label_point_X("M1");
+		M1.Y = picture.facePoints.find_label_point_Y("M1");
+		CvPoint M2;
+		M2.X = picture.facePoints.find_label_point_X("M2");
+		M2.Y = picture.facePoints.find_label_point_Y("M2");
+		CvPoint M3;
+		M3.X = picture.facePoints.find_label_point_X("M3");
+		M3.Y = picture.facePoints.find_label_point_Y("M3");
+		CvPoint M4;
+		M4.X = picture.facePoints.find_label_point_X("M4");
+		M4.Y = picture.facePoints.find_label_point_Y("M4");
+		CvPoint M5;
+		M5.X = picture.facePoints.find_label_point_X("M5");
+		M5.Y = picture.facePoints.find_label_point_Y("M5");
+		CvPoint M6;
+		M6.X = picture.facePoints.find_label_point_X("M6");
+		M6.Y = picture.facePoints.find_label_point_Y("M6");
+		CvPoint M7;
+		M7.X = picture.facePoints.find_label_point_X("M7");
+		M7.Y = picture.facePoints.find_label_point_Y("M7");
+		CvPoint M8;
+		M8.X = picture.facePoints.find_label_point_X("M8");
+		M8.Y = picture.facePoints.find_label_point_Y("M8");
+
+		CvPoint[][] points = new CvPoint[][]{
+			new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
+		};
+		CvScalar orange;
+		orange = new CvScalar();
+		orange.Val0 = 20;
+		orange.Val1 = 10;
+		orange.Val2 = 200;
+		Cv.FillPoly(tmpImage, points, orange);
+		Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
+		return tmpImage;
+	}
+
+	public IplImage effectMouthPink(IplImage srcImage, IplImage copyImage)
+	{
+		IplImage tmpImage = Cv.CloneImage(srcImage);
+
+		CvPoint M1;
+		M1.X = picture.facePoints.find_label_point_X("M1");
+		M1.Y = picture.facePoints.find_label_point_Y("M1");
+		CvPoint M2;
+		M2.X = picture.facePoints.find_label_point_X("M2");
+		M2.Y = picture.facePoints.find_label_point_Y("M2");
+		CvPoint M3;
+		M3.X = picture.facePoints.find_label_point_X("M3");
+		M3.Y = picture.facePoints.find_label_point_Y("M3");
+		CvPoint M4;
+		M4.X = picture.facePoints.find_label_point_X("M4");
+		M4.Y = picture.facePoints.find_label_point_Y("M4");
+		CvPoint M5;
+		M5.X = picture.facePoints.find_label_point_X("M5");
+		M5.Y = picture.facePoints.find_label_point_Y("M5");
+		CvPoint M6;
+		M6.X = picture.facePoints.find_label_point_X("M6");
+		M6.Y = picture.facePoints.find_label_point_Y("M6");
+		CvPoint M7;
+		M7.X = picture.facePoints.find_label_point_X("M7");
+		M7.Y = picture.facePoints.find_label_point_Y("M7");
+		CvPoint M8;
+		M8.X = picture.facePoints.find_label_point_X("M8");
+		M8.Y = picture.facePoints.find_label_point_Y("M8");
+
+		CvPoint[][] points = new CvPoint[][]{
+			new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
+		};
+		CvScalar orange;
+		orange = new CvScalar();
+		orange.Val0 = 159;
+		orange.Val1 = 168;
+		orange.Val2 = 251;
+		Cv.FillPoly(tmpImage, points, orange);
+		Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
+		return tmpImage;
+	}
+
+	public IplImage effectMouthOrange(IplImage srcImage, IplImage copyImage)
+	{
+		IplImage tmpImage = Cv.CloneImage(srcImage);
+
+		CvPoint M1;
+		M1.X = picture.facePoints.find_label_point_X("M1");
+		M1.Y = picture.facePoints.find_label_point_Y("M1");
+		CvPoint M2;
+		M2.X = picture.facePoints.find_label_point_X("M2");
+		M2.Y = picture.facePoints.find_label_point_Y("M2");
+		CvPoint M3;
+		M3.X = picture.facePoints.find_label_point_X("M3");
+		M3.Y = picture.facePoints.find_label_point_Y("M3");
+		CvPoint M4;
+		M4.X = picture.facePoints.find_label_point_X("M4");
+		M4.Y = picture.facePoints.find_label_point_Y("M4");
+		CvPoint M5;
+		M5.X = picture.facePoints.find_label_point_X("M5");
+		M5.Y = picture.facePoints.find_label_point_Y("M5");
+		CvPoint M6;
+		M6.X = picture.facePoints.find_label_point_X("M6");
+		M6.Y = picture.facePoints.find_label_point_Y("M6");
+		CvPoint M7;
+		M7.X = picture.facePoints.find_label_point_X("M7");
+		M7.Y = picture.facePoints.find_label_point_Y("M7");
+		CvPoint M8;
+		M8.X = picture.facePoints.find_label_point_X("M8");
+		M8.Y = picture.facePoints.find_label_point_Y("M8");
+
+		CvPoint[][] points = new CvPoint[][]{
+			new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
+		};
+		CvScalar orange;
+		orange = new CvScalar();
+		orange.Val0 = 0;
+		orange.Val1 = 140;
+		orange.Val2 = 255;
+		Cv.FillPoly(tmpImage, points, orange);
+		Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
+		return tmpImage;
+	}
+
+
+	/*
+	 * C++版エフェクト
+	 *IplImage* effectMouthRed(IplImage* srcImage, IplImage* copyImage)
+	 {
+	 >>>>>>> 843ef95bcd5689668125e96d6282ed219343ae90
 	//口の座標取得部分ここから
 	CvPoint** points;
 	string parts_name = "MOUTH";
