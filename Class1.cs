@@ -227,9 +227,9 @@ public class Form1 : System.Windows.Forms.Form
 		this.tabPage1 = new System.Windows.Forms.TabPage();
 		this.tabPage2 = new System.Windows.Forms.TabPage();
 		this.tabPage3 = new System.Windows.Forms.TabPage();
-		this.tab1Button = new MyButton[3];
-		this.tab2Button = new MyButton[3];
-		this.tab3Button = new MyButton[3];
+		this.tab1Button = new MyButton[4];
+		this.tab2Button = new MyButton[4];
+		this.tab3Button = new MyButton[4];
 
 		//江夏側の設定部分
 		//Face:UIに出力する顔画像部分のPicture Box
@@ -274,6 +274,7 @@ public class Form1 : System.Windows.Forms.Form
 							Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 4),
 							Size = B_size,
 							TabIndex = i,
+							Cursor = Cursors.Hand,
 			};
 			tab1Button[i].Click += new System.EventHandler(this.TabButton_Click);
 		}
@@ -286,6 +287,7 @@ public class Form1 : System.Windows.Forms.Form
 							Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 4),
 							Size = B_size,
 							TabIndex = i,
+							Cursor = Cursors.Hand,
 			};
 			tab2Button[i].Click += new System.EventHandler(this.TabButton_Click);
 		}
@@ -298,17 +300,42 @@ public class Form1 : System.Windows.Forms.Form
 							Location = new System.Drawing.Point(first_x + i * (B_size.Width + allowance), T_size.Height / 4),
 							Size = B_size,
 							TabIndex = i,
+							Cursor = Cursors.Hand,
 			};
 			tab3Button[i].Click += new System.EventHandler(this.TabButton_Click);
 		}
+		tab1Button[3] = new MyButton(0,3){
+			Text = "Reset",
+					 Location = new System.Drawing.Point(T_size.Width - B_size.Width -20, T_size.Height / 4),
+					 Size = B_size,
+					 TabIndex = 3,
+					 Cursor = Cursors.Hand,
+		};
+		tab1Button[3].Click += new System.EventHandler(this.TabButton_Click);
+		tab2Button[3] = new MyButton(1,3){
+			Text = "Reset",
+					 Location = new System.Drawing.Point(T_size.Width - B_size.Width -20, T_size.Height / 4),
+					 Size = B_size,
+					 TabIndex = 3,
+					 Cursor = Cursors.Hand,
+		};
+		tab2Button[3].Click += new System.EventHandler(this.TabButton_Click);
+		tab3Button[3] = new MyButton(2,3){
+			Text = "Reset",
+					 Location = new System.Drawing.Point(T_size.Width - B_size.Width -20, T_size.Height / 4),
+					 Size = B_size,
+					 TabIndex = 3,
+					 Cursor = Cursors.Hand,
+		};
+		tab3Button[3].Click += new System.EventHandler(this.TabButton_Click);
 
 		this.Text = "Form1";
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 			tabPage1.Controls.Add(this.tab1Button[i]);
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 			tabPage2.Controls.Add(this.tab2Button[i]);
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 			tabPage3.Controls.Add(this.tab3Button[i]);
 
 		this.Controls.Add(this.tabControl1);
