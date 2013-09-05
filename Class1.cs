@@ -91,7 +91,7 @@ public class opencvsharp_test
 
     public void loadimage()
     {
-        testImage = Cv.LoadImage("DSC_0154.png");
+        testImage = Cv.LoadImage("sample_640.jpg");
     }
 
     public void myshowImage()
@@ -103,7 +103,7 @@ public class opencvsharp_test
 
     void readXML()
     {
-        FaceXml.Load("facedetect.xml");
+        FaceXml.Load("sample-2.xml");
         XmlNode root = FaceXml.DocumentElement;
         XmlNode faces = root.FirstChild;
 
@@ -399,10 +399,12 @@ public class Form1 : System.Windows.Forms.Form
                     case 1:
                         //口のエフェクト1
                         System.Console.Write("button number is {0}\n", button_number);
+                        tmpImg = effectMouthPink(tmpImg, tmpImg);
                         break;
                     case 2:
                         //口のエフェクト2
                         System.Console.Write("button number is {0}\n", button_number);
+                        tmpImg = effectMouthOrange(tmpImg, tmpImg);
                         break;
                     default:
                         //エラー処理（エフェクト番号違い)
@@ -459,7 +461,7 @@ public class Form1 : System.Windows.Forms.Form
         orange.Val0 = 20;
         orange.Val1 = 10;
         orange.Val2 = 200;
-        Cv.FillPoly(tmpImage, points, orange);
+        Cv.FillPoly(copyImage, points, orange);
         Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
@@ -501,7 +503,7 @@ public class Form1 : System.Windows.Forms.Form
         orange.Val0 = 159;
         orange.Val1 = 168;
         orange.Val2 = 251;
-        Cv.FillPoly(tmpImage, points, orange);
+        Cv.FillPoly(copyImage, points, orange);
         Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
@@ -543,7 +545,7 @@ public class Form1 : System.Windows.Forms.Form
         orange.Val0 = 0;
         orange.Val1 = 140;
         orange.Val2 = 255;
-        Cv.FillPoly(tmpImage, points, orange);
+        Cv.FillPoly(copyImage, points, orange);
         Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
