@@ -171,7 +171,6 @@ class Form1 : Form
 
     private System.Windows.Forms.PictureBox Face;
     private opencvsharp_test picture;
-    private Effect MyEffect;
 
 
     public Form1()
@@ -202,10 +201,8 @@ class Form1 : Form
         //江夏側の設定部分
         //Face:UIに出力する顔画像部分のPicture Box
         //picture:OpenCVSharpで顔画像の読み込みクラス
-        //MyEffect:pictureでとってきた顔画像に対してエフェクトをする部分
         this.Face = new System.Windows.Forms.PictureBox();
         this.picture = new opencvsharp_test();
-        this.MyEffect = new Effect(picture.testImage);
 
         Face.Location = new Point(20, 20);
         Face.Image = picture.testImage.ToBitmap();
@@ -396,7 +393,7 @@ class Form1 : Form
                 //エラー処理（タブ番号違い)
                 System.Console.Write("Error!予期せぬ番号です.現在はテスト用のエフェクトが走ります");
                 //tmpImg = test_effect(tmpImg);
-                tmpImg = MyEffect.test_effect(MyEffect.inputImage);
+                tmpImg = effectMouthOrange(tmpImg, tmpImg);
                 
                 break;
 
@@ -407,45 +404,126 @@ class Form1 : Form
     public IplImage effectMouthRed(IplImage srcImage, IplImage copyImage)
     {
         IplImage tmpImage = Cv.CloneImage(srcImage);
-        CvPoint points;
-   
-        /*
-         * 口の座標取得ここに入れる
-         * 
-         * */
 
-        //Cv.FillPoly();
-        //Cv.AddWeighted();
+        CvPoint M1;
+        M1.X = picture.facePoints.find_label_point_X("M1");
+        M1.Y = picture.facePoints.find_label_point_Y("M1");
+        CvPoint M2;
+        M2.X = picture.facePoints.find_label_point_X("M2");
+        M2.Y = picture.facePoints.find_label_point_Y("M2");
+        CvPoint M3;
+        M3.X = picture.facePoints.find_label_point_X("M3");
+        M3.Y = picture.facePoints.find_label_point_Y("M3");
+        CvPoint M4;
+        M4.X = picture.facePoints.find_label_point_X("M4");
+        M4.Y = picture.facePoints.find_label_point_Y("M4");
+        CvPoint M5;
+        M5.X = picture.facePoints.find_label_point_X("M5");
+        M5.Y = picture.facePoints.find_label_point_Y("M5");
+        CvPoint M6;
+        M6.X = picture.facePoints.find_label_point_X("M6");
+        M6.Y = picture.facePoints.find_label_point_Y("M6");
+        CvPoint M7;
+        M7.X = picture.facePoints.find_label_point_X("M7");
+        M7.Y = picture.facePoints.find_label_point_Y("M7");
+        CvPoint M8;
+        M8.X = picture.facePoints.find_label_point_X("M8");
+        M8.Y = picture.facePoints.find_label_point_Y("M8");
+
+        CvPoint[][] points = new CvPoint[][]{
+            new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
+        };
+        CvScalar orange;
+        orange = new CvScalar();
+        orange.Val0 = 20;
+        orange.Val1 = 10;
+        orange.Val2 = 200;
+        Cv.FillPoly(tmpImage, points, orange);
+        Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
 
     public IplImage effectMouthPink(IplImage srcImage, IplImage copyImage)
     {
         IplImage tmpImage = Cv.CloneImage(srcImage);
-        CvPoint points;
 
-        /*
-         * 口の座標取得ここに入れる
-         * 
-         * */
+        CvPoint M1;
+        M1.X = picture.facePoints.find_label_point_X("M1");
+        M1.Y = picture.facePoints.find_label_point_Y("M1");
+        CvPoint M2;
+        M2.X = picture.facePoints.find_label_point_X("M2");
+        M2.Y = picture.facePoints.find_label_point_Y("M2");
+        CvPoint M3;
+        M3.X = picture.facePoints.find_label_point_X("M3");
+        M3.Y = picture.facePoints.find_label_point_Y("M3");
+        CvPoint M4;
+        M4.X = picture.facePoints.find_label_point_X("M4");
+        M4.Y = picture.facePoints.find_label_point_Y("M4");
+        CvPoint M5;
+        M5.X = picture.facePoints.find_label_point_X("M5");
+        M5.Y = picture.facePoints.find_label_point_Y("M5");
+        CvPoint M6;
+        M6.X = picture.facePoints.find_label_point_X("M6");
+        M6.Y = picture.facePoints.find_label_point_Y("M6");
+        CvPoint M7;
+        M7.X = picture.facePoints.find_label_point_X("M7");
+        M7.Y = picture.facePoints.find_label_point_Y("M7");
+        CvPoint M8;
+        M8.X = picture.facePoints.find_label_point_X("M8");
+        M8.Y = picture.facePoints.find_label_point_Y("M8");
 
-        //Cv.FillPoly();
-        //Cv.AddWeighted();
+        CvPoint[][] points = new CvPoint[][]{
+            new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
+        };
+        CvScalar orange;
+        orange = new CvScalar();
+        orange.Val0 = 159;
+        orange.Val1 = 168;
+        orange.Val2 = 251;
+        Cv.FillPoly(tmpImage, points, orange);
+        Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
 
     public IplImage effectMouthOrange(IplImage srcImage, IplImage copyImage)
     {
         IplImage tmpImage = Cv.CloneImage(srcImage);
-        CvPoint points;
 
-        /*
-         * 口の座標取得ここに入れる
-         * 
-         * */
+        CvPoint M1;
+        M1.X = picture.facePoints.find_label_point_X("M1");
+        M1.Y = picture.facePoints.find_label_point_Y("M1");
+        CvPoint M2;
+        M2.X = picture.facePoints.find_label_point_X("M2");
+        M2.Y = picture.facePoints.find_label_point_Y("M2");
+        CvPoint M3;
+        M3.X = picture.facePoints.find_label_point_X("M3");
+        M3.Y = picture.facePoints.find_label_point_Y("M3");
+        CvPoint M4;
+        M4.X = picture.facePoints.find_label_point_X("M4");
+        M4.Y = picture.facePoints.find_label_point_Y("M4");
+        CvPoint M5;
+        M5.X = picture.facePoints.find_label_point_X("M5");
+        M5.Y = picture.facePoints.find_label_point_Y("M5");
+        CvPoint M6;
+        M6.X = picture.facePoints.find_label_point_X("M6");
+        M6.Y = picture.facePoints.find_label_point_Y("M6");
+        CvPoint M7;
+        M7.X = picture.facePoints.find_label_point_X("M7");
+        M7.Y = picture.facePoints.find_label_point_Y("M7");
+        CvPoint M8;
+        M8.X = picture.facePoints.find_label_point_X("M8");
+        M8.Y = picture.facePoints.find_label_point_Y("M8");
 
-        //Cv.FillPoly();
-        //Cv.AddWeighted();
+        CvPoint[][] points = new CvPoint[][]{
+            new CvPoint[] {M1,M2,M3,M4,M5,M6,M7,M8},
+        };
+        CvScalar orange;
+        orange = new CvScalar();
+        orange.Val0 = 0;
+        orange.Val1 = 140;
+        orange.Val2 = 255;
+        Cv.FillPoly(tmpImage, points, orange);
+        Cv.AddWeighted(copyImage, 0.2, tmpImage, 0.8, 0, tmpImage);
         return tmpImage;
     }
 
