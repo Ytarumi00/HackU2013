@@ -91,7 +91,7 @@ public class opencvsharp_test
 
 	public void loadimage()
 	{
-		testImage = Cv.LoadImage("image.png");
+		testImage = Cv.LoadImage("sample_640.jpg");
 	}
 
 	public void myshowImage()
@@ -103,7 +103,7 @@ public class opencvsharp_test
 
 	void readXML()
 	{
-		FaceXml.Load("facedetect.xml");
+		FaceXml.Load("sample-2.xml");
 		XmlNode root = FaceXml.DocumentElement;
 		XmlNode faces = root.FirstChild;
 
@@ -214,7 +214,7 @@ public class Form1 : System.Windows.Forms.Form
     public Form1()
     {
         // This call is required for Windows Form Designer support.
-        Size W_size = new Size(600, 700);
+        Size W_size = new Size(680, 640);
         this.ClientSize = new System.Drawing.Size(W_size.Width, W_size.Height);
         InitializeComponent(W_size);
     }
