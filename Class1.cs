@@ -71,6 +71,7 @@ public class test_list
 public class opencvsharp_test
 {
     public IplImage testImage;
+    public IplImage effectedImage;
     private XmlDocument FaceXml;
     public test_list facePoints;
 
@@ -91,7 +92,8 @@ public class opencvsharp_test
 
     public void loadimage()
     {
-        testImage = Cv.LoadImage("sample_640.png");
+        testImage = Cv.LoadImage("sample_640.jpg");
+        effectedImage = Cv.CloneImage(testImage);
     }
 
     public void myshowImage()
@@ -324,7 +326,7 @@ public class Form1 : System.Windows.Forms.Form
             };
             tab4Button[i].Click += new System.EventHandler(this.TabButton_Click);
         }
-        tab1Button[3] = new MyButton(0, 3)
+        tab1Button[3] = new MyButton(9, 3)
         {
             Text = "Reset",
             Location = new System.Drawing.Point(T_size.Width - B_size.Width - 20, T_size.Height / 4),
@@ -333,7 +335,7 @@ public class Form1 : System.Windows.Forms.Form
             Cursor = Cursors.Hand,
         };
         tab1Button[3].Click += new System.EventHandler(this.TabButton_Click);
-        tab2Button[3] = new MyButton(1, 3)
+        tab2Button[3] = new MyButton(9, 3)
         {
             Text = "Reset",
             Location = new System.Drawing.Point(T_size.Width - B_size.Width - 20, T_size.Height / 4),
@@ -342,7 +344,7 @@ public class Form1 : System.Windows.Forms.Form
             Cursor = Cursors.Hand,
         };
         tab2Button[3].Click += new System.EventHandler(this.TabButton_Click);
-        tab3Button[3] = new MyButton(2, 3)
+        tab3Button[3] = new MyButton(9, 3)
         {
             Text = "Reset",
             Location = new System.Drawing.Point(T_size.Width - B_size.Width - 20, T_size.Height / 4),
@@ -351,7 +353,7 @@ public class Form1 : System.Windows.Forms.Form
             Cursor = Cursors.Hand,
         };
         tab3Button[3].Click += new System.EventHandler(this.TabButton_Click);
-        tab4Button[3] = new MyButton(2, 3)
+        tab4Button[3] = new MyButton(9, 3)
         {
             Text = "Reset",
             Location = new System.Drawing.Point(T_size.Width - B_size.Width - 20, T_size.Height / 4),
@@ -387,13 +389,14 @@ public class Form1 : System.Windows.Forms.Form
 
     private void TabButton_Click(object sender, System.EventArgs e)
     {
+        /*
         IplImage tmpImage;
         tmpImage = Cv.CloneImage(picture.testImage);
-
+        */
         Console.Write((sender as MyButton).get_tab_num());
         Console.Write((sender as MyButton).get_val());
-        tmpImage = face_change((sender as MyButton).get_tab_num(), (sender as MyButton).get_val(), picture.testImage);
-        Face.Image = tmpImage.ToBitmap();    
+        picture.effectedImage = face_change((sender as MyButton).get_tab_num(), (sender as MyButton).get_val(), picture.effectedImage);
+        Face.Image = picture.effectedImage.ToBitmap();    
     }
     IplImage face_change(int tab_number, int button_number,IplImage inputImg)
     {
@@ -519,9 +522,9 @@ public class Form1 : System.Windows.Forms.Form
                 break;
             default:
                 //エラー処理（タブ番号違い)
-                System.Console.Write("Error!予期せぬ番号です.\n");
+                System.Console.Write("Error!予期せぬ番号です.もしくはResetが押されました。初期化します\n");
                 //tmpImg = test_effect(tmpImg);
-
+                tmpImg = picture.testImage;
                 
                 break;
 
